@@ -13,6 +13,17 @@ tablePrefix = config['sampleTable_prefix']
 def getTables():
 	return [str("runFiles/" + tablePrefix + "_" + readType + ".txt") for readType in ["single", "paired"]]
 
+def getSRA(readType):
+	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
+	
+	if readType == "single":
+		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".sra") for line in runFile.readlines()]
+	
+	else:
+		idList = [str("Paired/" + line.strip() + "/" + line.strip() + ".sra") for line in runFile.readlines()]
+
+	return idList
+
 def getRunIDs(readType):
 	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 	

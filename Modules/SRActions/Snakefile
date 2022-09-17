@@ -19,9 +19,43 @@ rule getTables:
 
 
 
+rule fetchSraSingle:
+	input:
+		getTables()[0]
+
+	output:
+		getSRA("single")
+
+	shell:
+		"""
+                 prefetch \ 
+                 -X 99999999999999 \ 
+                 -O Single/ \
+		 --option-file {input}
+		"""
+
+
+
+rule fetchSraPaired:
+	input:
+		getTables()[1]
+	
+	output:
+		getSRA("paired")
+
+	shell:
+                """ 
+                 prefetch \ 
+                 -X 99999999999999 \ 
+                 -O Paired/ \ 
+                 --option-file {input} 
+                """
+
+
+
 rule writeFastqSingle:
 	input:
-		getTables()
+		"Single/{runID}/{runID}.sra"
 
 	output:
 		"Single/{runID}/{runID}.fastq"
@@ -31,21 +65,22 @@ rule writeFastqSingle:
 
 	resources:
 		mem_mb = 16000
+	
+	threads: 8
 
 	shell:
 		"""
-		module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq  
-		fasterq-dump \         
-		--threads 8 \         
-		-O Single/{wildcards.runID} \
-	        {wildcards.runID}
+		 fasterq-dump \
+                 --threads 8 \ 
+                 -O Single/{wildcards.runID} \ 
+                 Single/{wildcards.runID}
 		"""
 
 
 
 rule writeFastqPaired:
 	input:
-		getTables()
+		"Paired/{runID}/{runID}.sra"
 	
 	output:
 		"Paired/{runID}/{runID}_1.fastq",
@@ -57,12 +92,13 @@ rule writeFastqPaired:
 	resources:
 		mem_mb = 16000
 
+	threads: 8
+
 	shell:
 		"""
- 		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
-                 fasterq-dump \
+		 fasterq-dump \
                  --threads 8 \
                  -O Paired/{wildcards.runID} \
-                 {wildcards.runID}
+                 Paired/{wildcards.runID}
 		"""
 

@@ -9,6 +9,7 @@
 #SBATCH --time=10080
 #SBATCH --output=SEdownload.log
 
+module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
 which prefetch
 
 mkdir -p Single

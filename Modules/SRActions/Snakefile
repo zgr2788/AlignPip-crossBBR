@@ -1,0 +1,68 @@
+# Snakefile module for all actions regarding sampleTable -> fasterq
+# pipeline.
+#
+# @zgr2788
+
+
+rule getTables:
+	input:
+		str(tablePrefix + ".csv")
+
+	output:
+		getTables()
+
+	benchmark:
+		"Benchmarks/getTables.txt"
+
+	shell:
+		"bash Modules/SRActions/extractTables.sh {tablePrefix}"
+
+
+
+rule writeFastqSingle:
+	input:
+		getTables()
+
+	output:
+		"Single/{runID}/{runID}.fastq"
+
+	benchmark:
+		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
+
+	resources:
+		mem_mb = 16000
+
+	shell:
+		"""
+		module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq  
+		fasterq-dump \         
+		--threads 8 \         
+		-O Single/{wildcards.runID} \
+	        {wildcards.runID}
+		"""
+
+
+
+rule writeFastqPaired:
+	input:
+		getTables()
+	
+	output:
+		"Paired/{runID}/{runID}_1.fastq",
+		"Paired/{runID}/{runID}_2.fastq"
+
+	benchmark:
+		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
+
+	resources:
+		mem_mb = 16000
+
+	shell:
+		"""
+ 		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
+                 fasterq-dump \
+                 --threads 8 \
+                 -O Paired/{wildcards.runID} \
+                 {wildcards.runID}
+		"""
+

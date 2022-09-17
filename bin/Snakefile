@@ -1,0 +1,43 @@
+# Driver script for alignment pipeline
+#
+# @zgr2788
+
+
+# Define config & tableName
+configfile: 'config.yaml'
+tablePrefix = config['sampleTable_prefix']
+
+
+
+# Define I/O functions 
+def getTables():
+	return [str("runFiles/" + tablePrefix + "_" + readType + ".txt") for readType in ["single", "paired"]]
+
+def getRunIDs(readType):
+	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
+	
+	if readType == "single":	
+		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".fastq") for line in runFile.readlines()]
+
+	else:
+		idList = []
+		
+		for line in runFile.readlines():
+			id = line.strip()
+			idList.append(str("Paired/" + id + "/" + id + "_1.fastq"))
+			idList.append(str("Paired/" + id + "/" + id + "_2.fastq"))
+	
+	
+	runFile.close()
+	return idList
+	
+
+
+# Include Modules
+include:'Modules/SRActions/Snakefile'
+
+
+
+rule all:
+	input:
+		getRunIDs("single"), getRunIDs("paired")

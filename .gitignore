@@ -5,13 +5,5 @@ Paired
 runFiles
 *.csv*
 *.txt*
-dag.sh
-pip.sh
-Snakefile
-config.yam
-dag.sh
-pip.sh
-Snakefile
-config.yaml
 test.sh
 .snakemake/

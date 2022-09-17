@@ -7,3 +7,5 @@ runFiles
 *.txt*
 test.sh
 .snakemake/
+*PEdownload*
+*SEdownload*

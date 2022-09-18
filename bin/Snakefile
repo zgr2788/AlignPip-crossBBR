@@ -6,13 +6,18 @@
 # Define config & tableName
 configfile: 'config.yaml'
 tablePrefix = config['sampleTable_prefix']
+STARidx = config['STARindexFolder']
 
 
+# Define I/O functions
 
-# Define I/O functions 
+## Extracting sampleTables 
 def getTables():
 	return [str("runFiles/" + tablePrefix + "_" + readType + ".txt") for readType in ["single", "paired"]]
 
+
+
+## Getting SRA accessions
 def getSRA(readType):
 	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 	
@@ -24,19 +29,17 @@ def getSRA(readType):
 
 	return idList
 
-def getRunIDs(readType):
+
+
+## Getting target files
+def getBAMs(readType):
 	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 	
 	if readType == "single":	
-		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".fastq") for line in runFile.readlines()]
+		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".bam") for line in runFile.readlines()]
 
 	else:
-		idList = []
-		
-		for line in runFile.readlines():
-			id = line.strip()
-			idList.append(str("Paired/" + id + "/" + id + "_1.fastq"))
-			idList.append(str("Paired/" + id + "/" + id + "_2.fastq"))
+		idList = [str("Paired/" + line.strip() + "/" + line.strip() + ".bam") for line in runFile.readlines()]
 	
 	
 	runFile.close()
@@ -46,9 +49,9 @@ def getRunIDs(readType):
 
 # Include Modules
 include:'Modules/SRActions/Snakefile'
-
+include:'Modules/Align/Snakefile'
 
 
 rule all:
 	input:
-		getRunIDs("single"), getRunIDs("paired")
+		getBAMs("single"), getBAMs("paired")

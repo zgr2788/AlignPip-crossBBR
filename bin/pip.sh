@@ -4,9 +4,9 @@
 #SBATCH --account=mdbf
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --qos=mid_mdbf
-#SBATCH --partition=mid_mdbf
-#SBATCH --time=1440
+#SBATCH --qos=longer_mdbf
+#SBATCH --partition=longer_mdbf
+#SBATCH --time=21600
 #SBATCH --output=outPip-%j.log
 
 condaDir="Run setup.sh to configure"

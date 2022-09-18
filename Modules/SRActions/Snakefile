@@ -4,20 +4,6 @@
 # @zgr2788
 
 
-rule getTables:
-	input:
-		str(tablePrefix + ".csv")
-
-	output:
-		getTables()
-
-	benchmark:
-		"Benchmarks/getTables.txt"
-
-	shell:
-		"bash Modules/SRActions/extractTables.sh {tablePrefix}"
-
-
 
 rule fetchSraSingle:
 	input:

@@ -18,7 +18,7 @@ do
   if [[ $c == "n" || $c == "N" ]]; then printf -- "\n***********\nEnter path again." ;
   else
     #Write to files
-    printf -- "\n\nWriting to files...\n"
+    printf -- "\nWriting to files...\n\n"
     sed -E -i 's@condaDir="(.*)"@condaDir="'$path'"@g' "pip.sh"
     sed -E -i 's@condaDir="(.*)"@condaDir="'$path'"@g' "dag.sh"
     break

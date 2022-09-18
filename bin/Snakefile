@@ -7,7 +7,7 @@
 configfile: 'config.yaml'
 tablePrefix = config['sampleTable_prefix']
 STARidx = config['STARindexFolder']
-
+annotExt = config['annotationFile']
 
 # Define I/O functions
 
@@ -50,8 +50,9 @@ def getBAMs(readType):
 # Include Modules
 include:'Modules/SRActions/Snakefile'
 include:'Modules/Align/Snakefile'
-
+include:'Modules/GetCounts/Snakefile'
 
 rule all:
 	input:
-		getBAMs("single"), getBAMs("paired")
+		"Single/counts_single.csv",
+		"Paired/counts_paired.csv"

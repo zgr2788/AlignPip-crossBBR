@@ -1,0 +1,50 @@
+# Count extraction rules for the alignment pipeline.
+#
+# @zgr2788
+
+
+rule getSingleCounts:
+	input:
+		getBAMs("single"),
+		tableName = getTables()[0]
+
+	output:
+		"Single/counts_single.csv"
+
+	params:
+		annot = annotExt
+
+	threads: 16
+
+	resources:
+		mem_mb = 20480
+
+	conda:
+		"env.yaml"
+
+	shell:
+		"Rscript Modules/GetCounts/SE_count_script.R {input.tableName} {params.annot} {threads}"
+
+
+
+rule getPairedCounts:
+	input:
+		getBAMs("paired"),
+		tableName = getTables()[1]
+
+	output:
+		"Paired/counts_paired.csv"
+
+	params:
+		annot = annotExt
+
+	threads: 16
+
+	resources:
+		mem_mb = 20480
+
+	conda:
+		"env.yaml"
+
+	shell:
+		"Rscript Modules/GetCounts/PE_count_script.R {input.tableName} {params.annot} {threads}"

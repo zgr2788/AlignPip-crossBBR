@@ -29,7 +29,7 @@ Sample tables which contain the SRA accessions and read info (paired/single end)
 
 ### Appendices
 #### Sample DAG
-<img src="https://github.com/zgr2788/AlignPip-crossBBR/blob/main/dag_complete.png"/> 
+<img src="https://github.com/zgr2788/AlignPip-crossBBR/blob/main/dag_minimal.png"/> 
 
 #### Notes 
 A total of **480 runs** were downloaded with this pipeline of which **213** were **single-end** and **267** were **paired-end** runs.

@@ -1,0 +1,104 @@
+# Snakefile module for all actions regarding sampleTable -> fasterq
+# pipeline.
+#
+# @zgr2788
+
+
+
+rule fetchSraSingle:
+	input:
+		getTables()[0]
+
+	output:
+		"Single/{runID}/{runID}.sra"
+
+	threads: 1
+
+	priority: 100
+
+	shell:
+		"""
+		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
+                 prefetch \
+                 -X 99999999999999 \
+                 -O Single/ \
+		 {wildcards.runID}
+		"""
+
+
+
+rule fetchSraPaired:
+	input:
+		getTables()[1]
+	
+	output:
+		"Paired/{runID}/{runID}.sra"
+
+	threads: 1
+
+	priority: 100
+
+	shell:
+                """
+		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
+                 prefetch \
+                 -X 99999999999999 \
+                 -O Paired/ \
+                 {wildcards.runID}
+                """
+
+
+
+rule writeFastqSingle:
+	input:
+		"Single/{runID}/{runID}.sra"
+
+	output:
+		"Single/{runID}/{runID}.fastq"
+
+	benchmark:
+		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
+
+	resources:
+		mem_mb = 16000
+	
+	threads: 8
+
+	priority: 50
+
+	shell:
+		"""
+		 fasterq-dump \
+		 --threads 8 \
+                 -O Single/{wildcards.runID} \
+                 Single/{wildcards.runID}
+		"""
+
+
+
+rule writeFastqPaired:
+	input:
+		"Paired/{runID}/{runID}.sra"
+	
+	output:
+		"Paired/{runID}/{runID}_1.fastq",
+		"Paired/{runID}/{runID}_2.fastq"
+
+	benchmark:
+		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
+
+	resources:
+		mem_mb = 16000
+
+	threads: 8
+
+	priority: 50
+
+	shell:
+		"""
+		 fasterq-dump \
+                 --threads 8 \
+                 -O Paired/{wildcards.runID} \
+                 Paired/{wildcards.runID}
+		"""
+

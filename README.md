@@ -32,4 +32,4 @@ Sample tables which contain the SRA accessions and read info (paired/single end)
 <img src="https://github.com/zgr2788/AlignPip-crossBBR/blob/main/dag_minimal.png"/> 
 
 #### Notes 
-A total of **480 runs** were downloaded with this pipeline of which **213** were **single-end** and **267** were **paired-end** runs.
+A total of **480 runs** were downloaded with this pipeline of which **213** were **single-end** and **267** were **paired-end** runs. To reproduce the alignments, use STAR version 2.7.0 and Rsubread version 2.8.2 with the sampleTable provided.

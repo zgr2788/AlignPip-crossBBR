@@ -24,7 +24,7 @@ Sample tables which contain the SRA accessions and read info (paired/single end)
 5. Run `make` and follow the steps
 6. Adjust settings through config.yaml
 7. **(Optional)** Run `dag.sh` to get a directed acyclic graph (DAG) of the jobs
-8. Set up all cluster variables in `pip.sh`, defaults are for SLURM manager
+8. Set up all cluster variables in `pip.sh`, delete all `module load` statements from `Modules/SRActions/Snakefile` && `Modules/Align/Snakefile`. This step is necessary as the pipeline was originally meant to be run on the TOSUN Cluster at Sabancı.
 9. Run job through `pip.sh` or on local through `snakemake` 
 
 ### Appendices

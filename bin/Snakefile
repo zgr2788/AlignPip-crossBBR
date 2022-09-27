@@ -30,6 +30,19 @@ def getSRA(readType):
 	return idList
 
 
+## Getting FASTQ files
+def getFastq(readType):
+	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
+	
+	if readType == "single":
+		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".fastq") for line in runFile.readlines()]
+
+	else:
+		idList = [str("Paired/" + line.strip() + "/" + line.strip() + "_1.fastq") for line in runFile.readlines()]
+		for line in runFile.readlines():
+			idList.append(str("Paired/" + line.strip() + "/" + line.strip() + "_2.fastq"))
+
+	return idList
 
 ## Getting target files
 def getBAMs(readType):

@@ -10,7 +10,7 @@ rule fetchSraSingle:
 		getTables()[0]
 
 	output:
-		"Single/{runID}/{runID}.sra"
+		getSRA("single")
 
 	threads: 1
 
@@ -22,7 +22,7 @@ rule fetchSraSingle:
                  prefetch \
                  -X 99999999999999 \
                  -O Single/ \
-		 {wildcards.runID}
+		 --option-file {input}
 		"""
 
 
@@ -32,7 +32,7 @@ rule fetchSraPaired:
 		getTables()[1]
 	
 	output:
-		"Paired/{runID}/{runID}.sra"
+		getSRA("paired")
 
 	threads: 1
 
@@ -44,7 +44,7 @@ rule fetchSraPaired:
                  prefetch \
                  -X 99999999999999 \
                  -O Paired/ \
-                 {wildcards.runID}
+                 --option-file {input}
                 """
 
 
@@ -62,14 +62,15 @@ rule writeFastqSingle:
 	resources:
 		mem_mb = 16000
 	
-	threads: 8
+	threads: 1
 
 	priority: 50
 
 	shell:
 		"""
-		 fasterq-dump \
-		 --threads 8 \
+		 fastq-dump \
+		 --split-3 \
+		 --skip-technical \
                  -O Single/{wildcards.runID} \
                  Single/{wildcards.runID}
 		"""
@@ -90,15 +91,15 @@ rule writeFastqPaired:
 	resources:
 		mem_mb = 16000
 
-	threads: 8
+	threads: 1
 
 	priority: 50
 
 	shell:
 		"""
-		 fasterq-dump \
-                 --threads 8 \
-                 -O Paired/{wildcards.runID} \
+		 fastq-dump \
+                 --split-3 \
+                 --skip-technical \
                  Paired/{wildcards.runID}
 		"""
 

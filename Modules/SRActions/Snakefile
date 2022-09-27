@@ -18,10 +18,10 @@ rule fetchSraSingle:
 
 	shell:
 		"""
-		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
                  prefetch \
                  -X 99999999999999 \
                  -O Single/ \
+		 -p \
 		 --option-file {input}
 		"""
 
@@ -40,10 +40,10 @@ rule fetchSraPaired:
 
 	shell:
                 """
-		 module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
                  prefetch \
                  -X 99999999999999 \
                  -O Paired/ \
+		 -p \
                  --option-file {input}
                 """
 

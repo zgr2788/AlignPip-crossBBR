@@ -1,105 +1,34 @@
-# Snakefile module for all actions regarding sampleTable -> fasterq
-# pipeline.
+# Includes the rules for downloading from ENA using aspera
 #
 # @zgr2788
 
-
-
-rule fetchSraSingle:
+rule getFastqSingle:
 	input:
 		getTables()[0]
 
 	output:
-		getSRA("single")
+		getFastq("single", 1)
+
+	params:
+		asp = asperaKey
 
 	threads: 1
 
-	priority: 100
-
 	shell:
-		"""
-                 prefetch \
-                 -X 99999999999999 \
-                 -O Single/ \
-		 -p \
-		 --option-file {input}
-		"""
+		"bash Modules/SRActions/downloadTableSingle.sh {input} {params.asp}"
 
 
-
-rule fetchSraPaired:
+rule getFastqPaired:
 	input:
 		getTables()[1]
-	
+
 	output:
-		getSRA("paired")
+		getFastq("paired", 1)
+
+	params:
+		asp = asperaKey
 
 	threads: 1
 
-	priority: 100
-
 	shell:
-                """
-                 prefetch \
-                 -X 99999999999999 \
-                 -O Paired/ \
-		 -p \
-                 --option-file {input}
-                """
-
-
-
-rule writeFastqSingle:
-	input:
-		"Single/{runID}/{runID}.sra"
-
-	output:
-		"Single/{runID}/{runID}.fastq"
-
-	benchmark:
-		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
-
-	resources:
-		mem_mb = 16000
-	
-	threads: 1
-
-	priority: 50
-
-	shell:
-		"""
-		 fastq-dump \
-		 --split-3 \
-		 --skip-technical \
-                 -O Single/{wildcards.runID} \
-                 Single/{wildcards.runID}
-		"""
-
-
-
-rule writeFastqPaired:
-	input:
-		"Paired/{runID}/{runID}.sra"
-	
-	output:
-		"Paired/{runID}/{runID}_1.fastq",
-		"Paired/{runID}/{runID}_2.fastq"
-
-	benchmark:
-		"Benchmarks/{runID}/{runID}_fasterqdump.txt"
-
-	resources:
-		mem_mb = 16000
-
-	threads: 1
-
-	priority: 50
-
-	shell:
-		"""
-		 fastq-dump \
-                 --split-3 \
-                 --skip-technical \
-                 Paired/{wildcards.runID}
-		"""
-
+		"bash Modules/SRActions/downloadTablePaired.sh {input} {params.asp}"

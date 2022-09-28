@@ -8,6 +8,7 @@ configfile: 'config.yaml'
 tablePrefix = config['sampleTable_prefix']
 STARidx = config['STARindexFolder']
 annotExt = config['annotationFile']
+asperaKey = config['asperaKey']
 
 # Define I/O functions
 
@@ -17,7 +18,7 @@ def getTables():
 
 
 
-## Getting SRA accessions
+## Getting SRA accessions (DEPRECATED)
 def getSRA(readType):
 	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 	
@@ -31,16 +32,23 @@ def getSRA(readType):
 
 
 ## Getting FASTQ files
-def getFastq(readType):
+def getFastq(readType, zipped):
 	runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 	
+	if zipped == 1:
+		suffix = ".gz"
+	else:
+		suffix = ""
+
+
 	if readType == "single":
-		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".fastq") for line in runFile.readlines()]
+		idList = [str("Single/" + line.strip() + "/" + line.strip() + ".fastq" + suffix) for line in runFile.readlines()]
 
 	else:
-		idList = [str("Paired/" + line.strip() + "/" + line.strip() + "_1.fastq") for line in runFile.readlines()]
+		idList = [str("Paired/" + line.strip() + "/" + line.strip() + "_1.fastq" + suffix) for line in runFile.readlines()]
+		runFile = open(str("runFiles/" + tablePrefix + "_" + readType + ".txt"), "r")
 		for line in runFile.readlines():
-			idList.append(str("Paired/" + line.strip() + "/" + line.strip() + "_2.fastq"))
+			idList.append(str("Paired/" + line.strip() + "/" + line.strip() + "_2.fastq" + suffix))
 
 	return idList
 

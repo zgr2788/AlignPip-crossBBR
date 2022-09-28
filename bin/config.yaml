@@ -11,3 +11,7 @@ STARindexFolder: /cta/users/oybeker/GRCh38_index/index
 # Write the .gtf annotation file that was used in the index generation
 # for STAR. Will be used in the count extraction step.
 annotationFile: /cta/users/oybeker/GRCh38_index/Homo_sapiens.GRCh38.107.gtf
+
+
+# Write the ABSOLUTE PATH of the aspera dsa key.
+asperaKey: /cta/users/oybeker/.aspera/connect/etc/asperaweb_id_dsa.openssh

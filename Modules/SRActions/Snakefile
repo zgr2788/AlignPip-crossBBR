@@ -32,3 +32,18 @@ rule getFastqPaired:
 
 	shell:
 		"bash Modules/SRActions/downloadTablePaired.sh {input} {params.asp}"
+
+
+rule unzipFastq:
+	input:
+		getFastq("single", 1),
+		getFastq("paired", 1)
+
+	output:
+		getFastq("single", 0),
+		getFastq("paired", 0)
+
+	threads: 1
+
+	shell:
+		"bash Modules/SRActions/unzipFastq.sh"

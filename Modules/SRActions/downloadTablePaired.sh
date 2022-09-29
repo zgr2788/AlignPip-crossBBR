@@ -17,6 +17,7 @@ do
 	
 	# Designate output
 	outDir="Paired/$string"
+	mkdir -p $outDir
 	
 	# Encoding: If the string is 10 chars, only take last digit, if not, take last 2
 	if [ ${#string} == 10 ]

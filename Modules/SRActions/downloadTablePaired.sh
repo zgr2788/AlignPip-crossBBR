@@ -1,4 +1,13 @@
 #!/bin/bash
+#SBATCH --job-name=aspDownload
+#SBATCH --account=mdbf
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --qos=mid_mdbf
+#SBATCH --partition=mid_mdbf
+#SBATCH --time=1440
+#SBATCH --output=downloadPaired.log
+
 #
 # Script for downloading files sequentially from ENA through aspera
 #
@@ -31,6 +40,32 @@ do
 		downloadString2="era-fasp@fasp.sra.ebi.ac.uk:vol1/fastq/${string:0:6}/0${string:9:2}/$string/${string}_2.fastq.gz"
 	fi	
 	
-	# Download the file - change aspera key here if desired
-	ascp -QT -l 300m -P 33001 -i $aspKey $downloadStringAlt $outDir || ascp -QT -l 300m -P 33001 -i $aspKey $downloadString1 $outDir && ascp -QT -l 300m -P 33001 -i $aspKey $downloadString2 $outDir
+	# Download the file
+	if [ ! -f "Paired/$string/${string}_1.fastq.gz" ]
+	then
+		[ ! -f "Paired/$string/${string}.fastq.gz" ] && ascp -QT -l 300m -P 33001 -i $aspKey $downloadString1 $outDir
+	else
+		echo "${string}_1 exists, skipping..."
+	fi
+
+	if [ ! -f "Paired/$string/${string}_2.fastq.gz" ]
+	then
+		[ ! -f "Paired/$string/${string}.fastq.gz" ] && ascp -QT -l 300m -P 33001 -i $aspKey $downloadString2 $outDir
+	else
+		echo "${string}_2 exists, skipping..."
+	fi
+
+	if [ ! -f "Paired/$string/${string}.fastq.gz" ]
+	then
+		[ ! -f "Paired/$string/${string}_1.fastq.gz" ] && [ ! -f "Paired/$string/${string}_2.fastq.gz" ] && ascp -QT -l 300m -P 33001 -i $aspKey $downloadStringAlt $outDir 
+	else
+		echo "${string} exists, skipping..."
+	fi
+
+	# Check if successful
+	if [ [ -f "Paired/$string/${string}_1.fastq.gz" ] && [ -f "Paired/$string/${string}_2.fastq.gz" ] ] || [ -f "Paired/$string/${string}.fastq.gz" ]; then
+		echo "Download succeeded for $string"
+	else
+		echo $string >> pairedFails.txt	
+	fi
 done

@@ -8,7 +8,6 @@ configfile: 'config.yaml'
 tablePrefix = config['sampleTable_prefix']
 STARidx = config['STARindexFolder']
 annotExt = config['annotationFile']
-asperaKey = config['asperaKey']
 
 # Define I/O functions
 

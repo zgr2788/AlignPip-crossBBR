@@ -7,15 +7,12 @@ rule getFastqSingle:
 		getTables()[0]
 
 	output:
-		getFastq("single", 1)
+		"Single/{runID}/{runID}.fastq.gz"
 
-	params:
-		asp = asperaKey
-
-	threads: 1
+	threads: config['Cores']
 
 	shell:
-		"bash Modules/SRActions/downloadTableSingle.sh {input} {params.asp}"
+		"bash Modules/SRActions/fastqWrite.sh {wildcards.runID} Single"
 
 
 rule getFastqPaired:
@@ -23,15 +20,13 @@ rule getFastqPaired:
 		getTables()[1]
 
 	output:
-		getFastq("paired", 1)
+		"Paired/{runID}/{runID}_1.fastq.gz",
+		"Paired/{runID}/{runID}_2.fastq.gz"
 
-	params:
-		asp = asperaKey
-
-	threads: 1
+	threads: config['Cores']
 
 	shell:
-		"bash Modules/SRActions/downloadTablePaired.sh {input} {params.asp}"
+		"bash Modules/SRActions/fastqWrite.sh {wildcards.runID} Paired"
 
 
 rule unzipFastq:
@@ -43,7 +38,7 @@ rule unzipFastq:
 		getFastq("single", 0),
 		getFastq("paired", 0)
 
-	threads: 1
+	threads: config['Cores']
 
 	shell:
 		"bash Modules/SRActions/unzipFastq.sh"

@@ -4,7 +4,7 @@
 
 
 # Single
-gunzip $(find Single/ -name "*gz*" -print)
+unpigz -p16 $(find Single/ -name "*gz*" -print)
 
 # Paired
-gunzip $(find Paired/ -name "*gz*" -print)
+unpigz -p16 $(find Paired/ -name "*gz*" -print)

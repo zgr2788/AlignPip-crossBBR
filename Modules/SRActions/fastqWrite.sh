@@ -11,6 +11,7 @@
 condaDir="/cta/users/oybeker/mambaforge/etc/profile.d/conda.sh"
 entry=$1
 readType=$2
+cores=$3
 
 if [[ $readType == "Paired" ]]
 then
@@ -36,4 +37,4 @@ if [ ! -f "SRAcache/$entry/$entry.sra" ]; then
 echo "PREFETCH ERROR"
 fi
 
-parallel-fastq-dump --sra-id SRAcache/$entry/$entry.sra --threads 16 --outdir "${outLoc}/$entry/" --split-3 --gzip 
+parallel-fastq-dump --sra-id SRAcache/$entry/$entry.sra --threads $3 --outdir "${outLoc}/$entry/" --split-3 --gzip 

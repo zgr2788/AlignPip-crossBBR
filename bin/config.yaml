@@ -13,5 +13,5 @@ STARindexFolder: /cta/users/oybeker/GRCh38_index/index
 annotationFile: /cta/users/oybeker/GRCh38_index/Homo_sapiens.GRCh38.107.gtf
 
 
-# Core Requirements / Per Job
+# Core Requirements / Per Fastq Write Job
 Cores: 16

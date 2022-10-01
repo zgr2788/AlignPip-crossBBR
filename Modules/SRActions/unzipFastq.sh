@@ -2,9 +2,10 @@
 #
 # Unzip downloaded fastq files.
 
+cores=$1
 
 # Single
-unpigz -p16 $(find Single/ -name "*gz*" -print)
+unpigz -p${cores} $(find Single/ -name "*gz*" -print)
 
 # Paired
-unpigz -p16 $(find Paired/ -name "*gz*" -print)
+unpigz -p${cores} $(find Paired/ -name "*gz*" -print)

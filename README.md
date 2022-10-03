@@ -25,7 +25,10 @@ Sample tables which contain the SRA accessions and read info (paired/single end)
 6. Adjust settings through config.yaml
 7. **(Optional)** Run `dag.sh` to get a directed acyclic graph (DAG) of the jobs
 8. Set up all cluster variables in `pip.sh`, delete all `module load` statements from `Modules/SRActions/Snakefile` && `Modules/Align/Snakefile`. This step is necessary as the pipeline was originally meant to be run on the TOSUN Cluster at Sabancı.
-9. Run job through `pip.sh` or on local through `snakemake` 
+9. Fastq files should be downloaded.gz format, the `downloadTable{Layout}.sh` scripts are highly recommended if [Aspera Connect](https://www.biostars.org/p/9528910/) is installed. If not, the `fastqWrite.sh` script should be manually configured. With Aspera installed, do the following:
+		
+			bash Modules/SRActions/downloadTable{Layout}.sh {path/to/runlist} {path/to/sshkey}
+10. Run job through `pip.sh` or on local through `snakemake` 
 
 ### Appendices
 #### Sample DAG

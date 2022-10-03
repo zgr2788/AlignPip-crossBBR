@@ -26,20 +26,24 @@ Sample tables which contain the SRA accessions and read info (paired/single end)
 7. **(Optional)** Run `dag.sh` to get a directed acyclic graph (DAG) of the jobs
 8. Set up all cluster variables in `pip.sh`, delete all `module load` statements from `Modules/SRActions/Snakefile` && `Modules/Align/Snakefile`. This step is necessary as the pipeline was originally meant to be run on the TOSUN Cluster at Sabancı.
 9. Fastq files should be downloaded.gz format
-**Option 1**  
+
+**Option 1**
+
 `downloadTable{Layout}.sh` scripts are highly recommended if [Aspera Connect](https://www.biostars.org/p/9528910/) is installed. With Aspera installed, do the following:
 
 			bash Modules/SRActions/downloadTable{Layout}.sh {path/to/runlist} {path/to/sshkey}
-	If Aspera fails for downloads, `failed{layout.txt}` files will be generated for ease.
-	 **Option 2**
-	 The `Modules/SRActions/fastqWrite.sh` file needs to be configured to give **a conda environment with [parallel-fastq-dump](https://github.com/rvalieris/parallel-fastq-dump)** and also **a local install of [sra-toolkit](https://github.com/ncbi/sra-tools)**. The reason being that the current conda install of parallel-fastq-dump does not install an updated sra-toolkit.  
-11. Run job through `pip.sh` or on local through `snakemake`
+If Aspera fails for downloads, `failed{layout.txt}` files will be generated for ease.
 
-### Appendices
-#### Sample DAG
+
+**Option 2**
+
+The `Modules/SRActions/fastqWrite.sh` file needs to be configured to give **a conda environment with [parallel-fastq-dump](https://github.com/rvalieris/parallel-fastq-dump)** and also **a local install of [sra-toolkit](https://github.com/ncbi/sra-tools)**. The reason being that the current conda install of parallel-fastq-dump does not install an updated sra-toolkit.
+
+## Appendices
+### Sample DAG
 <img src="https://github.com/zgr2788/AlignPip-crossBBR/blob/main/dag_minimal.png"/>
 
-#### Notes
+### Notes
 A total of **323 experiments** were downloaded with this pipeline
 
 	156 PAIRED

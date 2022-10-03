@@ -14,10 +14,10 @@ rule getSingleCounts:
 	params:
 		annot = annotExt
 
-	threads: 16
+	threads: 24
 
 	resources:
-		mem_mb = 20480
+		mem_mb = 40960
 
 	conda:
 		"env.yaml"
@@ -38,10 +38,10 @@ rule getPairedCounts:
 	params:
 		annot = annotExt
 
-	threads: 16
+	threads: 24
 
 	resources:
-		mem_mb = 20480
+		mem_mb = 40960
 
 	conda:
 		"env.yaml"

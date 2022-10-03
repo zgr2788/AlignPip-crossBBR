@@ -14,11 +14,10 @@ mkdir -p runFiles
 printf -- "\nWriting tables...\n\n"
 
 #Get paired end reads
-cat "${filename}.csv" | grep -av ID | grep -a PAIRED | cut -f26 -d, | tr -s ";" "\n" | awk '{$1=$1;print}' > "runFiles/${filename}_paired.txt"
+cat "${filename}.csv" | grep -av ID | grep -a PAIRED | cut -f26 -d, | tr -s "_" "\n" | awk '{$1=$1;print}' > "runFiles/${filename}_paired.txt"
 
 #Get single end reads
-cat "${filename}.csv" | grep -av ID | grep -a SINGLE | cut -f26 -d, | tr -s ";" "\n" | awk '{$1=$1;print}' > "runFiles/${filename}_single.txt"
+cat "${filename}.csv" | grep -av ID | grep -a SINGLE | cut -f26 -d, | tr -s "_" "\n" | awk '{$1=$1;print}' > "runFiles/${filename}_single.txt"
 
 #Treat 10x SC as Single end
-cat "${filename}.csv" | grep -av ID | grep -a 10x | cut -f26 -d, | tr -s ";" "\n" | awk '{$1=$1;print}' >> "runFiles/${filename}_single.txt"
-
+cat "${filename}.csv" | grep -av ID | grep -a ,SC | cut -f26 -d, | tr -s "_" "\n" | awk '{$1=$1;print}' >> "runFiles/${filename}_single.txt"

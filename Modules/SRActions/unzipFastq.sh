@@ -5,7 +5,17 @@
 cores=$1
 
 # Single
-unpigz -p${cores} $(find Single/ -name "*gz*" -print)
+filesSingle=$(find Single/ -name "*gz*" -print)
+for files in $filesSingle
+do
+  echo "Unzipping $files..."
+  unpigz -p${cores} -k $files
+done
 
 # Paired
-unpigz -p${cores} $(find Paired/ -name "*gz*" -print)
+filesPaired=$(find Paired/ -name "*gz*" -print)
+for file in $filesPaired
+do
+  echo "Unzipping $file..."
+  unpigz -p${cores} -k $file
+done

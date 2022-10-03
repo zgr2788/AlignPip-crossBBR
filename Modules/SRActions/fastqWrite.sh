@@ -22,8 +22,8 @@ fi
 
 
 source $condaDir
-conda activate par-fastq
-module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq
+#conda activate par-fastq #replace here with env having par-fastqdump
+#module load sra-toolkit-3.0.0-gcc-9.2.0-f6ulhyq #replace here
 
 mkdir -p SRAcache
 

@@ -14,7 +14,7 @@ rule getSingleCounts:
 	params:
 		annot = annotExt
 
-	threads: 24
+	threads: config['CoresCounts']
 
 	resources:
 		mem_mb = 40960
@@ -38,7 +38,7 @@ rule getPairedCounts:
 	params:
 		annot = annotExt
 
-	threads: 24
+	threads: config['CoresCounts']
 
 	resources:
 		mem_mb = 40960
